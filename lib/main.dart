@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'audio_screen.dart';
+
+import 'view/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,9 +12,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
+      title: 'Audira',
       debugShowCheckedModeBanner: false,
-      home: ForestSoundUI(),
+      theme: ThemeData(
+        fontFamily: 'regular',
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+      ),
+      home: const Home(),
     );
   }
 }
