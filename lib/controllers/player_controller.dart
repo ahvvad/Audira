@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -16,40 +18,75 @@ class PlayerController extends GetxController {
   var max = 0.0.obs;
   var value = 0.0.obs;
 
+  late List<SongModel> data;
+
   @override
   void onInit() {
     super.onInit();
-
     checkPermission();
+    loadSongs();
+
+    audioPlayer.positionStream.listen((position) {
+      if (audioPlayer.duration != null && position >= audioPlayer.duration!) {
+        _playNextSong();
+      }
+    });
+  }
+
+  loadSongs() async {
+    var perm = await Permission.storage.request();
+    if (perm.isGranted) {
+      var songs = await audioQuery.querySongs();
+      data = songs;
+    } else {
+      print("Permission denied!");
+    }
+  }
+
+  _playNextSong() {
+    if (playIndex.value < data.length - 1) {
+      playSong(data[playIndex.value + 1].uri, playIndex.value + 1);
+    } else {
+      playSong(data[0].uri, 0);
+    }
   }
 
   updatePosition() {
     audioPlayer.durationStream.listen((d) {
-      duration.value = d.toString().split(".")[0];
-      max.value = d!.inSeconds.toDouble();
+      if (d != null) {
+        duration.value = d.toString().split(".")[0];
+        max.value = d.inSeconds.toDouble();
+      } else {
+        duration.value = "0:00";
+        max.value = 0.0;
+      }
     });
+
     audioPlayer.positionStream.listen((p) {
-      position.value = p.toString().split(".")[0];
-      value.value = p.inSeconds.toDouble();
+      if (p != null) {
+        position.value = p.toString().split(".")[0];
+        value.value = p.inSeconds.toDouble();
+      } else {
+        position.value = "0:00";
+        value.value = 0.0;
+      }
     });
   }
 
-  changeDurationToSeconds(seconds) {
-    var duration = Duration(seconds: seconds);
-    audioPlayer.seek(duration);
-  }
-
-  playSong(String? uri, index) {
+  playSong(String? uri, int index) async {
     playIndex.value = index;
     try {
-      audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(uri!)));
-      audioPlayer.play();
+      await audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(uri!)));
+      await audioPlayer.play();
       isPlaying(true);
       updatePosition();
     } on Exception catch (e) {
-      print(
-        e.toString(),
-      );
+      print("Error loading song: $e");
+      if (index < data.length - 1) {
+        playSong(data[index + 1].uri, index + 1);
+      } else {
+        playSong(data[0].uri, 0);
+      }
     }
   }
 
