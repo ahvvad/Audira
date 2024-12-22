@@ -21,11 +21,11 @@ class Player extends StatelessWidget {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                bgColor,
-                bgDarkColor,
+                Color.fromARGB(255, 0, 66, 96),
+                Color.fromARGB(255, 0, 10, 24),
               ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
           ),
           child: Column(
@@ -54,9 +54,11 @@ class Player extends StatelessWidget {
                   alignment: Alignment.center,
                   children: [
                     Obx(
-                      ()=> CustomPaint(
+                      () => CustomPaint(
                         size: const Size(350, 350),
-                        painter: CirclePainter(progress: conteoller.value.value /conteoller.max.value),
+                        painter: CirclePainter(
+                            progress:
+                                conteoller.value.value / conteoller.max.value),
                       ),
                     ),
                     ClipOval(

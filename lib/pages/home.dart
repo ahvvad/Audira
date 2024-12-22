@@ -9,180 +9,228 @@ import '../controllers/player_controller.dart';
 
 import 'player.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  //--
+  double xOffset = 0;
+  double yOffset = 0;
+  bool isDrawerOpen = false;
 
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(PlayerController());
 
-    return Scaffold(
-      backgroundColor: bgDarkColor,
-      appBar: AppBar(
-        backgroundColor: bgDarkColor,
-        // centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Get.snackbar(
-                "In Progress",
-                "This feature is currently being developed. Stay tuned!",
-                colorText: Colors.white,
-                icon: const Icon(Icons.code_rounded, color: Colors.white),
-                isDismissible: true,
-                animationDuration: const Duration(milliseconds: 400),
-              );
-            },
-            icon: SvgPicture.asset(
-              width: 22,
-              height: 22,
-              'assets/images/setting.svg',
-              colorFilter: const ColorFilter.mode(iconsColor, BlendMode.srcIn),
-            ),
-          )
-        ],
-        leading: IconButton(
-          onPressed: () {},
-          icon: SvgPicture.asset(
-            width: 20,
-            height: 20,
-            'assets/images/drawer.svg',
-            colorFilter: const ColorFilter.mode(iconsColor, BlendMode.srcIn),
-          ),
-        ),
-        title: const Text(
-          'Audira',
-          style: TextStyle(
-              fontSize: 30,
-              color: whiteColor,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'bold'),
-        ),
+    return AnimatedContainer(
+      transform: Matrix4.translationValues(xOffset, yOffset, 0)
+        ..scale(isDrawerOpen ? 0.85 : 1.00)
+        ..rotateZ(isDrawerOpen ? -50 : 0),
+      duration: const Duration(milliseconds: 200),
+      decoration: BoxDecoration(
+        color: bgDarkColor,
+        borderRadius:
+            isDrawerOpen ? BorderRadius.circular(40) : BorderRadius.circular(0),
       ),
-      body: SafeArea(
-        child: FutureBuilder<List<SongModel>>(
-          future: controller.audioQuery.querySongs(
-            ignoreCase: true,
-            orderType: OrderType.ASC_OR_SMALLER,
-            sortType: null,
-            uriType: UriType.EXTERNAL,
-          ),
-          builder: (context, snapshot) {
-            if (snapshot.data == null) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.data!.isEmpty) {
-              return Center(
-                child: Text(
-                  'There are no audio files.',
-                  style: ourStyle(),
-                ),
-              );
-            } else {
-              return Padding(
-                padding:
-                    const EdgeInsets.only(top: 10.0, left: 10.0, bottom: 10.0),
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 5),
-                          child: Obx(
-                            () => ListTile(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              title: Text(
-                                snapshot.data![index].displayNameWOExt,
-                                style: ourStyle(
-                                  family: bold,
-                                  size: 15,
-                                ),
-                              ),
-                              subtitle: Text(
-                                "${snapshot.data![index].artist}",
-                                style: ourStyle(
-                                  family: bold,
-                                  size: 12,
-                                ),
-                              ),
-                              leading: QueryArtworkWidget(
-                                artworkBorder: BorderRadius.circular(12),
-                                id: snapshot.data![index].id,
-                                type: ArtworkType.AUDIO,
-                                nullArtworkWidget: const Icon(
-                                  Icons.music_note,
-                                  color: whiteColor,
-                                  size: 50,
-                                ),
-                              ),
-                              trailing: GestureDetector(
-                                onTap: () {
-                                  if (controller.playIndex.value == index) {
-                                    if (controller.isPlaying.value) {
-                                      controller.audioPlayer.pause();
-                                      controller.isPlaying.value = false;
-                                    } else {
-                                      controller.audioPlayer.play();
-                                      controller.isPlaying.value = true;
-                                    }
-                                  } else {
-                                    controller.playSong(
-                                        snapshot.data![index].uri, index);
-                                  }
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(8.0),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white.withOpacity(0.1),
-                                  ),
-                                  child: controller.playIndex.value == index &&
-                                          controller.isPlaying.value
-                                      ? const Icon(
-                                          Icons.pause,
-                                          color: whiteColor,
-                                          size: 26,
-                                        )
-                                      : const Icon(
-                                          Icons.play_arrow_rounded,
-                                          color: whiteColor,
-                                          size: 26,
-                                        ),
-                                ),
-                              ),
-                              onTap: () {
-                                controller.playSong(
-                                  snapshot.data![index].uri,
-                                  index,
-                                );
-                                Get.to(
-                                  () => Player(data: snapshot.data!),
-                                  transition: Transition.downToUp,
-                                  fullscreenDialog: false,
-                                  duration: const Duration(milliseconds: 700),
-                                );
-                              },
-                            ),
+      child: Column(
+        children: <Widget>[
+          const SizedBox(height: 60),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        if (isDrawerOpen) {
+                          xOffset = 0;
+                          yOffset = 0;
+                          isDrawerOpen = false;
+                        } else {
+                          xOffset = 290;
+                          yOffset = 80;
+                          isDrawerOpen = true;
+                        }
+                      });
+                    },
+                    icon: isDrawerOpen
+                        ? const Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: iconsColor,
+                          )
+                        : SvgPicture.asset(
+                            width: 20,
+                            height: 20,
+                            'assets/icons/drawer.svg',
+                            colorFilter: const ColorFilter.mode(
+                                iconsColor, BlendMode.srcIn),
                           ),
-                        ),
-                        const Divider(
-                          color: iconsColor,
-                          thickness: 1,
-                          indent: 72,
-                        ),
-                      ],
-                    );
-                  },
+                  ),
+                  const Text(
+                    'My Music',
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: whiteColor,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'bold'),
+                  ),
+                ],
+              ),
+              IconButton(
+                onPressed: () {
+                  Get.snackbar(
+                    "In Progress",
+                    "This feature is currently being developed. Stay tuned!",
+                    colorText: Colors.white,
+                    icon: const Icon(Icons.code_rounded, color: Colors.green),
+                    isDismissible: true,
+                    animationDuration: const Duration(milliseconds: 400),
+                  );
+                },
+                icon: SvgPicture.asset(
+                  width: 22,
+                  height: 22,
+                  'assets/icons/setting.svg',
+                  colorFilter:
+                      const ColorFilter.mode(iconsColor, BlendMode.srcIn),
                 ),
-              );
-            }
-          },
-        ),
+              )
+            ],
+          ),
+          Expanded(
+            child: FutureBuilder<List<SongModel>>(
+              future: controller.audioQuery.querySongs(
+                ignoreCase: true,
+                orderType: OrderType.ASC_OR_SMALLER,
+                sortType: null,
+                uriType: UriType.EXTERNAL,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.data == null) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.data!.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'There are no audio files.',
+                      style: ourStyle(),
+                    ),
+                  );
+                } else {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 5),
+                              child: Obx(
+                                () => ListTile(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  title: Text(
+                                    snapshot.data![index].displayNameWOExt,
+                                    style: ourStyle(
+                                      family: bold,
+                                      size: 15,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    "${snapshot.data![index].artist}",
+                                    style: ourStyle(
+                                      family: bold,
+                                      size: 12,
+                                    ),
+                                  ),
+                                  leading: QueryArtworkWidget(
+                                    artworkBorder: BorderRadius.circular(12),
+                                    id: snapshot.data![index].id,
+                                    type: ArtworkType.AUDIO,
+                                    nullArtworkWidget: const Icon(
+                                      Icons.music_note,
+                                      color: whiteColor,
+                                      size: 50,
+                                    ),
+                                  ),
+                                  trailing: GestureDetector(
+                                    onTap: () {
+                                      if (controller.playIndex.value == index) {
+                                        if (controller.isPlaying.value) {
+                                          controller.audioPlayer.pause();
+                                          controller.isPlaying.value = false;
+                                        } else {
+                                          controller.audioPlayer.play();
+                                          controller.isPlaying.value = true;
+                                        }
+                                      } else {
+                                        controller.playSong(
+                                            snapshot.data![index].uri, index);
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8.0),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white.withOpacity(0.1),
+                                      ),
+                                      child:
+                                          controller.playIndex.value == index &&
+                                                  controller.isPlaying.value
+                                              ? const Icon(
+                                                  Icons.pause,
+                                                  color: whiteColor,
+                                                  size: 26,
+                                                )
+                                              : const Icon(
+                                                  Icons.play_arrow_rounded,
+                                                  color: whiteColor,
+                                                  size: 26,
+                                                ),
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    controller.playSong(
+                                      snapshot.data![index].uri,
+                                      index,
+                                    );
+                                    Get.to(
+                                      () => Player(data: snapshot.data!),
+                                      transition: Transition.downToUp,
+                                      fullscreenDialog: false,
+                                      duration:
+                                          const Duration(milliseconds: 700),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            const Divider(
+                              color: iconsColor,
+                              thickness: 1,
+                              indent: 72,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'pages/drawer_screen.dart';
 import 'pages/home.dart';
 
 void main() {
@@ -21,7 +22,14 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: const Home(),
+      home: const Scaffold(
+        body: Stack(
+          children: [
+            DrawerScreen(),
+            Home(),
+          ],
+        ),
+      ),
     );
   }
 }
