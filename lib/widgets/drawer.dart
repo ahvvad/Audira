@@ -146,6 +146,8 @@ class _DrawerScreenState extends State<DrawerScreen>
             ),
             const SizedBox(height: 20),
             Row(
+              // mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Icon(
                   Icons.copyright_rounded,

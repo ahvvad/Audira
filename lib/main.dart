@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'pages/drawer_screen.dart';
+import 'widgets/drawer.dart';
 import 'pages/home.dart';
 
 void main() {

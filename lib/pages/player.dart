@@ -5,7 +5,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 import '../consts/colors.dart';
 import '../consts/text_style.dart';
 import '../controllers/player_controller.dart';
-import 'circle_painter.dart';
+import '../widgets/circle_painter.dart';
 
 class Player extends StatelessWidget {
   final List<SongModel> data;
