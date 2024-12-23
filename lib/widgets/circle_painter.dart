@@ -1,4 +1,3 @@
-// circle_painter.dart
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -23,10 +22,8 @@ class CirclePainter extends CustomPainter {
     Offset center = Offset(size.width / 2, size.height / 2);
     double radius = size.width / 2;
 
-    // رسم الخلفية الدائرية
     canvas.drawCircle(center, radius, backgroundPaint);
 
-    // رسم تقدم التشغيل
     double sweepAngle = 2 * pi * progress;
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),

@@ -23,7 +23,6 @@ class FloatBotton extends StatelessWidget {
       child: FloatingActionButton(
         backgroundColor: Colors.grey,
         onPressed: () async {
-          // Get the songs data
           List<SongModel> songs = await controller.audioQuery.querySongs(
             ignoreCase: true,
             orderType: OrderType.ASC_OR_SMALLER,

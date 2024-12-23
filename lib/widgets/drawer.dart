@@ -22,7 +22,7 @@ class _DrawerScreenState extends State<DrawerScreen>
   void initState() {
     super.initState();
     _controllers = List.generate(
-      6, // number of NewRow widgets you have
+      6,
       (index) => AnimationController(
         duration: Duration(milliseconds: 500),
         vsync: this,
@@ -32,7 +32,6 @@ class _DrawerScreenState extends State<DrawerScreen>
         .map((controller) => Tween(begin: 0.0, end: 1.0).animate(controller))
         .toList();
 
-    // Start all animations when the screen is initialized
     Future.delayed(Duration(milliseconds: 100), () {
       for (var controller in _controllers) {
         controller.forward();
@@ -78,11 +77,12 @@ class _DrawerScreenState extends State<DrawerScreen>
                   width: 10,
                 ),
                 const Text(
-                  'Audira',
+                  'Profile',
                   style: TextStyle(
                       color: whiteColor,
                       fontSize: 22,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'bold'),
                 ),
               ],
             ),
@@ -106,7 +106,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                   );
                 }),
                 const SizedBox(height: 20),
-                _buildAnimatedRow(2, 'Saved', Icons.bookmark_border, () {
+                _buildAnimatedRow(2, 'Stats', Icons.bar_chart_rounded, () {
                   Get.snackbar(
                     "In Progress",
                     "This feature is currently being developed. Stay tuned!",
@@ -128,15 +128,12 @@ class _DrawerScreenState extends State<DrawerScreen>
                   );
                 }),
                 const SizedBox(height: 20),
-                _buildAnimatedRow(4, 'Hint', Icons.lightbulb_outline, () {
+                _buildAnimatedRow(4, 'Log Out', Icons.lightbulb_outline, () {
                   Get.snackbar(
-                    "Hint",
-                    "If you have any new ideas or Hint, please contact the developer.",
+                    "In Progress",
+                    "This feature is currently being developed. Stay tuned!",
                     colorText: Colors.white,
-                    icon: const Icon(
-                      Icons.lightbulb_outline_rounded,
-                      color: Colors.yellow,
-                    ),
+                    icon: const Icon(Icons.code_rounded, color: Colors.green),
                     isDismissible: true,
                     animationDuration: const Duration(milliseconds: 400),
                   );
@@ -146,7 +143,6 @@ class _DrawerScreenState extends State<DrawerScreen>
             ),
             const SizedBox(height: 20),
             Row(
-              // mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Icon(
@@ -172,7 +168,6 @@ class _DrawerScreenState extends State<DrawerScreen>
     );
   }
 
-  // Helper method to build each row with animation
   Widget _buildAnimatedRow(
       int index, String text, IconData icon, VoidCallback onTap) {
     return FadeTransition(

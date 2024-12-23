@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'pages/albums_screen.dart';
 import 'pages/home.dart';
+import 'pages/playlist_screen.dart';
 import 'widgets/drawer.dart';
 
 void main() {

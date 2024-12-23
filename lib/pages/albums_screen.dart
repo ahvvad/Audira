@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../consts/colors.dart';
 import '../consts/text_style.dart';
 import '../controllers/player_controller.dart';
-import '../widgets/app_bar.dart';
+import '../widgets/custom_nav_bar.dart';
 import '../widgets/float_botton.dart';
 
 class AlbumsScreen extends StatefulWidget {
@@ -15,7 +16,6 @@ class AlbumsScreen extends StatefulWidget {
 }
 
 class _AlbumsScreenState extends State<AlbumsScreen> {
-  //--
   double xOffset = 0;
   double yOffset = 0;
   bool isDrawerOpen = false;
@@ -37,30 +37,14 @@ class _AlbumsScreenState extends State<AlbumsScreen> {
               : BorderRadius.circular(0),
         ),
         child: Scaffold(
+          appBar: appBar(),
           floatingActionButton: FloatBotton(controller: controller),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
           backgroundColor: Colors.transparent,
           body: Column(
             children: <Widget>[
-              const SizedBox(height: 60),
-              CustomAppBar(
-                title: 'Music',
-                toggleDrawer: () {
-                  setState(() {
-                    if (isDrawerOpen) {
-                      xOffset = 0;
-                      yOffset = 0;
-                      isDrawerOpen = false;
-                    } else {
-                      xOffset = 290;
-                      yOffset = 80;
-                      isDrawerOpen = true;
-                    }
-                  });
-                },
-                isDrawerOpen: isDrawerOpen,
-              ),
+              CustomNavBar(),
               Expanded(
                 child: Center(
                   child: Text(
@@ -76,5 +60,67 @@ class _AlbumsScreenState extends State<AlbumsScreen> {
         ),
       ),
     );
+  }
+  
+  AppBar appBar() {
+    return AppBar(
+        leading: IconButton(
+          onPressed: () {
+            setState(() {
+              if (isDrawerOpen) {
+                xOffset = 0;
+                yOffset = 0;
+                isDrawerOpen = false;
+              } else {
+                xOffset = 290;
+                yOffset = 80;
+                isDrawerOpen = true;
+              }
+            });
+          },
+          icon: isDrawerOpen
+              ? const Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: iconsColor,
+                )
+              : SvgPicture.asset(
+                  width: 20,
+                  height: 20,
+                  'assets/icons/drawer.svg',
+                  colorFilter:
+                      const ColorFilter.mode(iconsColor, BlendMode.srcIn),
+                ),
+        ),
+        title: Text(
+          'Audira',
+          style: TextStyle(
+            fontSize: 30,
+            color: whiteColor,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'bold',
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.snackbar(
+                "In Progress",
+                "This feature is currently being developed. Stay tuned!",
+                colorText: Colors.white,
+                icon: const Icon(Icons.code_rounded, color: Colors.green),
+                isDismissible: true,
+                animationDuration: const Duration(milliseconds: 400),
+              );
+            },
+            icon: SvgPicture.asset(
+              width: 22,
+              height: 22,
+              'assets/icons/setting.svg',
+              colorFilter:
+                  const ColorFilter.mode(iconsColor, BlendMode.srcIn),
+            ),
+          )
+        ],
+      );
   }
 }

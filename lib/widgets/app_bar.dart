@@ -2,59 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../consts/colors.dart';
-
-class CustomAppBar extends StatefulWidget {
-  final VoidCallback toggleDrawer;
+class CustomAppBar extends StatelessWidget {
   final bool isDrawerOpen;
-  final String title;
+  final VoidCallback onDrawerToggle;
 
-  const CustomAppBar({
+  CustomAppBar({
     Key? key,
-    required this.toggleDrawer,
-    required this.isDrawerOpen, required this.title,
+    required this.isDrawerOpen,
+    required this.onDrawerToggle,
   }) : super(key: key);
 
   @override
-  State<CustomAppBar> createState() => _CustomAppBarState();
-}
-
-class _CustomAppBarState extends State<CustomAppBar> {
-  @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              onPressed: widget.toggleDrawer,
-              icon: widget.isDrawerOpen
-                  ? const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: iconsColor,
-                    )
-                  : SvgPicture.asset(
-                      width: 20,
-                      height: 20,
-                      'assets/icons/drawer.svg',
-                      colorFilter: const ColorFilter.mode(
-                          iconsColor, BlendMode.srcIn),
-                    ),
-            ),
-             Text(
-              widget.title,
-              style: TextStyle(
-                fontSize: 30,
-                color: whiteColor,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'bold',
+    return AppBar(
+      leading: IconButton(
+        onPressed: onDrawerToggle,
+        icon: isDrawerOpen
+            ? const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.white,
+              )
+            : SvgPicture.asset(
+                width: 20,
+                height: 20,
+                'assets/icons/drawer.svg',
+                colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
               ),
-            ),
-          ],
+      ),
+      title: Text(
+        'Audira',
+        style: TextStyle(
+          fontSize: 30,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'bold',
         ),
+      ),
+      actions: [
         IconButton(
           onPressed: () {
             Get.snackbar(
@@ -70,9 +54,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
             width: 22,
             height: 22,
             'assets/icons/setting.svg',
-            colorFilter: const ColorFilter.mode(iconsColor, BlendMode.srcIn),
+            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
           ),
-        )
+        ),
       ],
     );
   }

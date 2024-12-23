@@ -6,6 +6,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 import '../consts/colors.dart';
 import '../consts/text_style.dart';
 import '../controllers/player_controller.dart';
+import '../widgets/custom_nav_bar.dart';
 import '../widgets/float_botton.dart';
 import 'player.dart';
 
@@ -37,77 +38,13 @@ class _HomeState extends State<Home> {
             isDrawerOpen ? BorderRadius.circular(40) : BorderRadius.circular(0),
       ),
       child: Scaffold(
+        appBar: appBar(),
         floatingActionButton: FloatBotton(controller: controller),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         backgroundColor: Colors.transparent,
         body: Column(
           children: <Widget>[
-            const SizedBox(height: 60),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          if (isDrawerOpen) {
-                            xOffset = 0;
-                            yOffset = 0;
-                            isDrawerOpen = false;
-                          } else {
-                            xOffset = 290;
-                            yOffset = 80;
-                            isDrawerOpen = true;
-                          }
-                        });
-                      },
-                      icon: isDrawerOpen
-                          ? const Icon(
-                              Icons.arrow_back_ios_new_rounded,
-                              color: iconsColor,
-                            )
-                          : SvgPicture.asset(
-                              width: 20,
-                              height: 20,
-                              'assets/icons/drawer.svg',
-                              colorFilter: const ColorFilter.mode(
-                                  iconsColor, BlendMode.srcIn),
-                            ),
-                    ),
-                    const Text(
-                      'My Music',
-                      style: TextStyle(
-                          fontSize: 30,
-                          color: whiteColor,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'bold'),
-                    ),
-                  ],
-                ),
-                IconButton(
-                  onPressed: () {
-                    Get.snackbar(
-                      "In Progress",
-                      "This feature is currently being developed. Stay tuned!",
-                      colorText: Colors.white,
-                      icon: const Icon(Icons.code_rounded, color: Colors.green),
-                      isDismissible: true,
-                      animationDuration: const Duration(milliseconds: 400),
-                    );
-                  },
-                  icon: SvgPicture.asset(
-                    width: 22,
-                    height: 22,
-                    'assets/icons/setting.svg',
-                    colorFilter:
-                        const ColorFilter.mode(iconsColor, BlendMode.srcIn),
-                  ),
-                )
-              ],
-            ),
+            CustomNavBar(),
             Expanded(
               child: FutureBuilder<List<SongModel>>(
                 future: controller.audioQuery.querySongs(
@@ -246,5 +183,67 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  AppBar appBar() {
+    return AppBar(
+        leading: IconButton(
+          onPressed: () {
+            setState(() {
+              if (isDrawerOpen) {
+                xOffset = 0;
+                yOffset = 0;
+                isDrawerOpen = false;
+              } else {
+                xOffset = 290;
+                yOffset = 80;
+                isDrawerOpen = true;
+              }
+            });
+          },
+          icon: isDrawerOpen
+              ? const Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: iconsColor,
+                )
+              : SvgPicture.asset(
+                  width: 20,
+                  height: 20,
+                  'assets/icons/drawer.svg',
+                  colorFilter:
+                      const ColorFilter.mode(iconsColor, BlendMode.srcIn),
+                ),
+        ),
+        title: Text(
+          'Audira',
+          style: TextStyle(
+            fontSize: 30,
+            color: whiteColor,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'bold',
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.snackbar(
+                "In Progress",
+                "This feature is currently being developed. Stay tuned!",
+                colorText: Colors.white,
+                icon: const Icon(Icons.code_rounded, color: Colors.green),
+                isDismissible: true,
+                animationDuration: const Duration(milliseconds: 400),
+              );
+            },
+            icon: SvgPicture.asset(
+              width: 22,
+              height: 22,
+              'assets/icons/setting.svg',
+              colorFilter:
+                  const ColorFilter.mode(iconsColor, BlendMode.srcIn),
+            ),
+          )
+        ],
+      );
   }
 }
