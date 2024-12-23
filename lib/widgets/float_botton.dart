@@ -30,14 +30,26 @@ class FloatBotton extends StatelessWidget {
             sortType: null,
             uriType: UriType.EXTERNAL,
           );
-
-          Get.to(
-            () => 
-                Player(data: songs),
-            transition: Transition.downToUp,
-            fullscreenDialog: false,
-            duration: const Duration(milliseconds: 700),
-          );
+          if (songs.isEmpty) {
+            Get.snackbar(
+              'Error',
+              'No songs available!',
+              colorText: Colors.white,
+              icon: const Icon(
+                Icons.report_gmailerrorred_rounded,
+                color: Colors.red,
+              ),
+              isDismissible: true,
+              animationDuration: const Duration(milliseconds: 400),
+            );
+          } else {
+            Get.to(
+              () => Player(data: songs),
+              transition: Transition.downToUp,
+              fullscreenDialog: false,
+              duration: const Duration(milliseconds: 700),
+            );
+          }
         },
         child: Padding(
           padding: const EdgeInsets.all(10),
