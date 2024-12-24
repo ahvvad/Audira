@@ -6,10 +6,13 @@ import '../consts/colors.dart';
 import '../consts/text_style.dart';
 
 class DialogHelper {
-  static void showLinkDialog({required String url}) {
+  static void showLinkDialog({
+    required String url,
+    required String title,
+  }) {
     Get.defaultDialog(
       title: "Open Link",
-      middleText: "Click the button to contact the developer.",
+      middleText: title,
       backgroundColor: whiteColor,
       titleStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       middleTextStyle: const TextStyle(fontSize: 14),

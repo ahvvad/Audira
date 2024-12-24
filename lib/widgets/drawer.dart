@@ -91,6 +91,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                 _buildAnimatedRow(0, 'Developer', Icons.person_outline, () {
                   DialogHelper.showLinkDialog(
                     url: 'https://linktr.ee/userahmed',
+                    title: 'Click the button to contact the developer.',
                   );
                 }),
                 const SizedBox(height: 20),
@@ -109,7 +110,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                 _buildAnimatedRow(2, 'Stats', Icons.bar_chart_rounded, () {
                   Get.snackbar(
                     "In Progress",
-                    "This feature is currently being developed. Stay tuned!",
+                    "This feature is currently being developed. Stay tuned for updates!",
                     colorText: Colors.white,
                     icon: const Icon(Icons.code_rounded, color: Colors.green),
                     isDismissible: true,
@@ -120,7 +121,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                 _buildAnimatedRow(3, 'Favorites', Icons.favorite_border, () {
                   Get.snackbar(
                     "In Progress",
-                    "This feature is currently being developed. Stay tuned!",
+                    "This feature is currently being developed. Stay tuned for updates!",
                     colorText: Colors.white,
                     icon: const Icon(Icons.code_rounded, color: Colors.green),
                     isDismissible: true,

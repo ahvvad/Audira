@@ -38,9 +38,9 @@ class _AlbumsScreenState extends State<AlbumsScreen> {
         ),
         child: Scaffold(
           appBar: appBar(),
-          floatingActionButton: FloatBotton(controller: controller),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+          // floatingActionButton: FloatBotton(controller: controller),
+          // floatingActionButtonLocation:
+          //     FloatingActionButtonLocation.centerFloat,
           backgroundColor: Colors.transparent,
           body: Column(
             children: <Widget>[

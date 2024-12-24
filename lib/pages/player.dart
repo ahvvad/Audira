@@ -84,6 +84,7 @@ class Player extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
                   alignment: Alignment.center,
                   child: Obx(
                     () => Column(

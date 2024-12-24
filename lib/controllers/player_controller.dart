@@ -18,38 +18,39 @@ class PlayerController extends GetxController {
   var max = 0.0.obs;
   var value = 0.0.obs;
 
-  late List<SongModel> data;
+  var isLoading = true.obs;
+  List<SongModel> data = [];
 
   @override
   void onInit() {
     super.onInit();
     checkPermission();
     loadSongs();
-
     audioPlayer.positionStream.listen((position) {
       if (audioPlayer.duration != null && position >= audioPlayer.duration!) {
-        _playNextSong();
+        playNextSong();
       }
     });
   }
 
-  loadSongs() async {
+  Future<void> loadSongs() async {
     var perm = await Permission.storage.request();
     if (perm.isGranted) {
       var songs = await audioQuery.querySongs();
-      data = songs;
+      data = songs.isNotEmpty ? songs : [];
     } else {
       print("Permission denied!");
     }
+    isLoading(false); 
   }
 
-  _playNextSong() {
-    if (playIndex.value < data.length - 1) {
-      playSong(data[playIndex.value + 1].uri, playIndex.value + 1);
-    } else {
-      playSong(data[0].uri, 0);
-    }
-  }
+  // _playNextSong() {
+  //   if (playIndex.value < data.length - 1) {
+  //     playSong(data[playIndex.value + 1].uri, playIndex.value + 1);
+  //   } else {
+  //     playSong(data[0].uri, 0);
+  //   }
+  // }
 
   updatePosition() {
     audioPlayer.durationStream.listen((d) {
@@ -90,10 +91,36 @@ class PlayerController extends GetxController {
     }
   }
 
+  void playNextSong() {
+  if (playIndex.value < data.length - 1) {
+    playSong(data[playIndex.value + 1].uri, playIndex.value + 1);
+  } else {
+    playSong(data[0].uri, 0);
+  }
+}
+
+void playPreviousSong() {
+  if (playIndex.value > 0) {
+    playSong(data[playIndex.value - 1].uri, playIndex.value - 1);
+  } else {
+    playSong(data[data.length - 1].uri, data.length - 1);
+  }
+}
+
+
+  pauseOrResume() {
+    if (audioPlayer.playing) {
+      audioPlayer.pause();
+      isPlaying(false);
+    } else {
+      audioPlayer.play();
+      isPlaying(true);
+    }
+  }
+
   checkPermission() async {
     var perm = await Permission.storage.request();
-    if (perm.isGranted) {
-    } else {
+    if (!perm.isGranted) {
       checkPermission();
     }
   }

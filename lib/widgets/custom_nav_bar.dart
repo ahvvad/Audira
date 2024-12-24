@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../consts/colors.dart';
+import '../controllers/dialog_contact.dart';
 import '../controllers/nav_bar_controller.dart';
-import '../pages/albums_screen.dart';
-import '../pages/home.dart';
-import '../pages/playlist_screen.dart';
 
 class CustomNavBar extends StatelessWidget {
   const CustomNavBar({
@@ -19,7 +17,7 @@ class CustomNavBar extends StatelessWidget {
     final containerWidth = screenWidth * 0.3;
 
     return Container(
-      padding: EdgeInsets.only(left: 25, top: 15, bottom: 15),
+      padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
       color: Colors.transparent,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -29,8 +27,18 @@ class CustomNavBar extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 navBarController.setSelectedIndex(0);
-                Get.to(
-                  () => PlaylistScreen(),
+                Get.snackbar(
+                  "Playlists",
+                  "This section is currently being developed. Stay tuned for updates!",
+                  colorText: Colors.white,
+                  isDismissible: true,
+                  animationDuration: const Duration(milliseconds: 400),
+                  onTap: (snack) {
+                    DialogHelper.showLinkDialog(
+                      url: 'https://linktr.ee/userahmed',
+                      title: 'For updates, contact the developer here.',
+                    );
+                  },
                 );
               },
               child: Obx(() {
@@ -62,7 +70,6 @@ class CustomNavBar extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 navBarController.setSelectedIndex(1);
-                Get.to(() => Home());
               },
               child: Obx(() {
                 return Container(
@@ -93,7 +100,19 @@ class CustomNavBar extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 navBarController.setSelectedIndex(2);
-                Get.to(() => AlbumsScreen());
+                Get.snackbar(
+                  "Albums",
+                  "This section is currently being developed. Stay tuned for updates!",
+                  colorText: Colors.white,
+                  isDismissible: true,
+                  animationDuration: const Duration(milliseconds: 400),
+                  onTap: (snack) {
+                    DialogHelper.showLinkDialog(
+                      url: 'https://linktr.ee/userahmed',
+                      title: 'For updates, contact the developer here.',
+                    );
+                  },
+                );
               },
               child: Obx(() {
                 return Container(
