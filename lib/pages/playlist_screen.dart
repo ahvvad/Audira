@@ -6,7 +6,6 @@ import '../consts/colors.dart';
 import '../consts/text_style.dart';
 import '../controllers/player_controller.dart';
 import '../widgets/custom_nav_bar.dart';
-import '../widgets/float_botton.dart';
 
 class PlaylistScreen extends StatefulWidget {
   const PlaylistScreen({super.key});
@@ -22,7 +21,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(PlayerController());
+    Get.put(PlayerController());
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: AnimatedContainer(
@@ -38,9 +37,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
         ),
         child: Scaffold(
           appBar: appBar(),
-          // floatingActionButton: FloatBotton(controller: controller),
-          // floatingActionButtonLocation:
-          //     FloatingActionButtonLocation.centerFloat,
           backgroundColor: Colors.transparent,
           body: Column(
             children: <Widget>[
