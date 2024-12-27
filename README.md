@@ -11,7 +11,7 @@ If you’re taking all the contents from the `lib` folder, ensure you **update t
 ---
 
 ## Required Packages
-These are all the packages required to run the app. Run the following commands to add them:
+These are all the packages required to run the app. Run the following commands to add them to pubspec.yaml :
 
 ```
 flutter pub add get
@@ -36,6 +36,20 @@ dev_dependencies:
    android: true
    ios: true
 ```
+Add these entries to the `AndroidManifest.xml`.
+```
+    <!-- Access local storage  -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- Access internet  -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    
+    <!-- Access forground  -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+```
+
 
 # Preview
 
