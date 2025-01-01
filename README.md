@@ -1,5 +1,7 @@
 # Audira
 
+<img src="assets/preview/preview.png" />
+
 ### Releases
 You can find the application in the **Releases** section or by [following this link](https://github.com/ahvvad/Audira/releases).
 
@@ -49,13 +51,6 @@ Add these entries to the `AndroidManifest.xml`.
     <!-- Access forground  -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 ```
-
-
-# Preview
-
-<img src="assets/preview/preview.png" />
-
-###
 
 ### Explore the UI through [this link](assets/preview)
 
