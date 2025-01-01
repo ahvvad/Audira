@@ -13,7 +13,7 @@ If you’re taking all the contents from the `lib` folder, ensure you **update t
 ---
 
 ## Required Packages
-These are all the packages required to run the app. Run the following commands to add them to pubspec.yaml :
+These are all the packages required to run the app. Run the following commands to add them to `pubspec.yaml` :
 
 ```
 flutter pub add get
